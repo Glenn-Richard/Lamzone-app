@@ -7,13 +7,13 @@ public class Meeting {
 
     //VARIABLES
     private  int id;
-    private Timestamp timestamp;
+    private long timestamp;
     private String subject;
     private List<String> emails;
 
 
     //CONSTRUCTOR
-    public Meeting(int id, Timestamp timestamp, String subject, List<String> emails) {
+    public Meeting(int id, long timestamp, String subject, List<String> emails) {
         this.id = id;
         this.timestamp = timestamp;
         this.subject = subject;
@@ -29,11 +29,11 @@ public class Meeting {
         this.id = id;
     }
 
-    public Timestamp getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 
