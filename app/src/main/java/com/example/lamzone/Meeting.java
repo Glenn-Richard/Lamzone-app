@@ -1,18 +1,19 @@
 package com.example.lamzone;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class Meeting {
 
     //VARIABLES
     private  int id;
-    private long timestamp;
+    private Timestamp timestamp;
     private String subject;
     private List<String> emails;
 
 
     //CONSTRUCTOR
-    public Meeting(int id, long timestamp, String subject, List<String> emails) {
+    public Meeting(int id, Timestamp timestamp, String subject, List<String> emails) {
         this.id = id;
         this.timestamp = timestamp;
         this.subject = subject;
@@ -28,11 +29,11 @@ public class Meeting {
         this.id = id;
     }
 
-    public long getTimestamp() {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(long timestamp) {
+    public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
 
