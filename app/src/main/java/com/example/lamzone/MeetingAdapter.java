@@ -2,6 +2,7 @@ package com.example.lamzone;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,24 +17,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import services.ApiSerivces;
-import services.ApiMeetingServices;
+import static android.text.format.DateFormat.format;
 
 public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHolder> {
-    //ApiServices
-    private ApiSerivces mApiservices;
-    List<Meeting> mMeetings;
 
-    public MeetingAdapter(List<Meeting> items){
+    List<Meeting> mMeetings;
+    ListItemListener mListener;
+
+    public MeetingAdapter(List<Meeting> items, ListItemListener listener){
         mMeetings = items;
+        mListener=listener;
     }
 
     @NonNull
@@ -44,11 +40,10 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
         return new ViewHolder(view);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        mApiservices = new ApiMeetingServices();
-        Meeting meeting = mApiservices.getMeetings().get(position);
-        holder.display(meeting);
+        holder.display(mMeetings.get(position));
 
     }
 
@@ -64,13 +59,9 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
         private final ImageButton button;
 
         private Meeting currentMeeting;
-        private Room room;
 
-//        private Timestamp time;
-//        Calendar cal = Calendar.getInstance();
-//        @SuppressLint("SimpleDateFormat")
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd  HH:mm");
-//        Date strDate;
+        private String time ;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -80,42 +71,41 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
             button = itemView.findViewById(R.id.item_list_user_delete_button);
 
         }
-        @RequiresApi(api = Build.VERSION_CODES.N)
         @SuppressLint("SetTextI18n")
         public void display(Meeting meeting){
-//            time.setTime(meeting.getTimestamp());
             currentMeeting = meeting;
+            Calendar cal = Calendar.getInstance();
+            cal.setTimeInMillis(currentMeeting.getTimestamp()*1000);
+            time = DateFormat.format("dd/MM HH:mm",cal).toString();
 
-            if(currentMeeting.getLocation().toString()=="Reunion A"){
+            if(currentMeeting.getLocation().getName()=="Reunion A"){
             Glide.with(itemView.getContext())
                     .load(R.mipmap.blue)
                     .apply(RequestOptions.circleCropTransform())
                     .into(image);}
-            if(currentMeeting.getLocation().toString()=="Reunion B"){
+            if(currentMeeting.getLocation().getName()=="Reunion B"){
                 Glide.with(itemView.getContext())
                         .load(R.mipmap.orange)
                         .apply(RequestOptions.circleCropTransform())
                         .into(image);}
-            if(currentMeeting.getLocation().toString()=="Reunion C"){
+            if(currentMeeting.getLocation().getName()=="Reunion C"){
                 Glide.with(itemView.getContext())
                         .load(R.mipmap.magenta)
                         .apply(RequestOptions.circleCropTransform())
                         .into(image);}
-//            try {
-//                strDate = sdf.parse(time.toString());
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
-            ttop.setText(currentMeeting.getLocation().getName()+"-14h00-"+ currentMeeting.getSubject());
+
+            ttop.setText(currentMeeting.getLocation().getName()+"-"+time+"-"+ currentMeeting.getSubject());
             List<String> emails = currentMeeting.getEmails();
-            String email = emails.stream()
-                    .map(n -> String.valueOf(n))
-                    .collect(Collectors.joining(","));
+            String email = emails.get(0);
+
+                    for(int i=1;i<emails.size();i++){
+                            email = email +","+ emails.get(i);
+                    }
 
                 tbottom.setText(email);
 
             button.setOnClickListener(v ->
-                    mApiservices.deleteMeeting(meeting)
+            mListener.onDelete(currentMeeting)
             );
         }
     }

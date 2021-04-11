@@ -25,6 +25,12 @@ public class ListActivity extends AppCompatActivity {
         final RecyclerView rv = findViewById(R.id.list_item_rv);
 
         rv.setLayoutManager(new LinearLayoutManager(this));
-        rv.setAdapter(new MeetingAdapter(mMeetings));
+        MeetingAdapter adapter=new MeetingAdapter(mMeetings, meeting -> {
+            mApiServices.deleteMeeting(meeting);
+            rv.getAdapter().notifyDataSetChanged();
+
+        });
+
+        rv.setAdapter(adapter);
     }
 }

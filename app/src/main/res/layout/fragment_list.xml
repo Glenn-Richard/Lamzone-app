@@ -22,23 +22,28 @@
 
     <TextView
         android:id="@+id/item_list_user_top"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:text="TextView"
-        android:textStyle="bold"
+        android:textStyle="normal"
+        style="@style/autoscroll"
+        android:maxLines="1"
+        app:layout_constraintEnd_toStartOf="@id/item_list_user_delete_button"
         app:layout_constraintStart_toEndOf="@+id/item_list_user_avatar"
         app:layout_constraintTop_toTopOf="@+id/item_list_user_avatar"
         android:gravity="center"
         android:layout_marginLeft="24dp" />
     <TextView
         android:id="@+id/item_list_user_bottom"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:text="TextView"
+        android:text="TextView "
+        style="@style/autoscroll"
         android:ellipsize="end"
         android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/item_list_user_delete_button"
         app:layout_constraintStart_toEndOf="@+id/item_list_user_avatar"
         app:layout_constraintTop_toBottomOf="@+id/item_list_user_top"
         android:layout_marginLeft="24dp" />
@@ -55,5 +60,9 @@
         app:srcCompat="@drawable/ic_baseline_delete_24"
         android:layout_marginRight="16dp"
         tools:ignore="VectorDrawableCompat" />
-
+<View
+    android:layout_width="match_parent"
+    android:background="@color/black"
+    app:layout_constraintBottom_toBottomOf="parent"
+    android:layout_height="1dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
