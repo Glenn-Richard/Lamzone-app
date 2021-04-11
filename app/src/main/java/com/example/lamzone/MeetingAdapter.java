@@ -106,8 +106,7 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
 //            } catch (ParseException e) {
 //                e.printStackTrace();
 //            }
-            ttop.setText(currentMeeting.getLocation()+"-"+"14h00"+"-"+ currentMeeting.getSubject());
-            int cpt =currentMeeting.getEmails().size();
+            ttop.setText(currentMeeting.getLocation().getName()+"-14h00-"+ currentMeeting.getSubject());
             List<String> emails = currentMeeting.getEmails();
             String email = emails.stream()
                     .map(n -> String.valueOf(n))
