@@ -1,6 +1,5 @@
 package com.example.lamzone;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 public class Meeting {
@@ -10,14 +9,16 @@ public class Meeting {
     private long timestamp;
     private String subject;
     private List<String> emails;
+    private Room location;
 
 
     //CONSTRUCTOR
-    public Meeting(int id, long timestamp, String subject, List<String> emails) {
+    public Meeting(int id, long timestamp, String subject, List<String> emails, Room location) {
         this.id = id;
         this.timestamp = timestamp;
         this.subject = subject;
         this.emails = emails;
+        this.location = location;
     }
 
     //GETTER AND SETTER
@@ -51,6 +52,14 @@ public class Meeting {
 
     public void setEmails(List<String> emails) {
         this.emails = emails;
+    }
+
+    public Room getLocation() {
+        return location;
+    }
+
+    public void setLocation(Room location) {
+        this.location = location;
     }
 }
 
