@@ -2,6 +2,9 @@
   <dictionary name="Glenn-Richard">
     <words>
       <w>autoscroll</w>
+      <w>spinnerday</w>
+      <w>spinnermonth</w>
+      <w>spinneryear</w>
     </words>
   </dictionary>
 </component>
