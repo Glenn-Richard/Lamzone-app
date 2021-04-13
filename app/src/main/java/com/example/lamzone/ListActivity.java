@@ -17,10 +17,15 @@ import services.ApiMeetingServices;
 
 public class ListActivity extends AppCompatActivity {
 
+    public static final String MEETING_EXTRA = "MEETING_EXTRA";
+    private Meeting meetingAdd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recyclerview_list);
+
+
 
         ApiSerivces mApiServices = new ApiMeetingServices();
         List<Meeting> mMeetings;
@@ -28,20 +33,28 @@ public class ListActivity extends AppCompatActivity {
         mMeetings = mApiServices.getMeetings();
         final RecyclerView rv = findViewById(R.id.list_item_rv);
         final FloatingActionButton fab = findViewById(R.id.fab);
+        meetingAdd = getIntent().getParcelableExtra(MEETING_EXTRA);
 
         rv.setLayoutManager(new LinearLayoutManager(this));
-        MeetingAdapter adapter = new MeetingAdapter(mMeetings, meeting -> {
-            mApiServices.deleteMeeting(meeting);
-            rv.getAdapter().notifyDataSetChanged();
 
+        MeetingAdapter adapter = new MeetingAdapter(mMeetings, new ListItemListener() {
+            @Override
+            public void onDelete(Meeting meeting) {
+                mApiServices.deleteMeeting(meeting);
+                rv.getAdapter().notifyDataSetChanged();
+            }
+
+            @Override
+            public void OnAddMeeting(Meeting meeting) {
+                meeting = meetingAdd;
+                mApiServices.addMeeting(meeting);
+                rv.getAdapter().notifyDataSetChanged();
+            }
         });
         rv.setAdapter(adapter);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ListActivity.this,AddMeetingActivity.class);
-                startActivity(intent);
-            }
+        fab.setOnClickListener(v -> {
+            Intent intent = new Intent(ListActivity.this,AddMeetingActivity.class);
+            startActivity(intent);
         });
     }
 }

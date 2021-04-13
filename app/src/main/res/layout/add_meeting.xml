@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="@color/grey_heavy_light">
+    android:background="@color/grey_light">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/content1"
@@ -22,7 +22,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="30dp">
+            android:paddingBottom="20dp">
 
             <Button
                 android:id="@+id/reunionA"

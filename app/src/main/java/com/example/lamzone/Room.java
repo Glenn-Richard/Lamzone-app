@@ -7,7 +7,9 @@ public class Room {
     private int id;
     private String name;
 
-    //CONSTRUCTOR
+    //CONSTRUCTORS
+    public Room(){}
+
     public Room(int id, String name) {
         this.id = id;
         this.name = name;

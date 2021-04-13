@@ -1,10 +1,9 @@
 package com.example.lamzone;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -12,11 +11,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.text.ParseException;
+import java.util.List;
+import java.util.Objects;
 
 import services.ApiMeetingServices;
 import services.ApiSerivces;
 import services.ApiServiceGenerator;
+
+import static com.example.lamzone.ListActivity.MEETING_EXTRA;
 
 public class AddMeetingActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     @Override
@@ -24,9 +30,12 @@ public class AddMeetingActivity extends AppCompatActivity implements AdapterView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_meeting);
 
-        ApiSerivces mApiServices = new ApiMeetingServices();
+        RecyclerView recyclerView = findViewById(R.id.list_item_rv);
 
-        RecyclerView rv = findViewById(R.id.list_item_rv);
+        ApiSerivces mApiServices = new ApiMeetingServices();
+        List<Meeting> mMeetings;
+
+        mMeetings = mApiServices.getMeetings();
 
         Button buttonA = findViewById(R.id.reunionA);
         Button buttonB = findViewById(R.id.reunionB);
@@ -70,8 +79,8 @@ public class AddMeetingActivity extends AppCompatActivity implements AdapterView
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Meeting meeting = null;
-                Room room = null;
+                Meeting meeting = new Meeting();
+                Room room = new Room();
                 meeting.setId(mApiServices.getMeetings().size()-1);
                 switch (text.getText().toString()) {
                     case "Vous avez sélectionner la salle: A":
@@ -89,8 +98,17 @@ public class AddMeetingActivity extends AppCompatActivity implements AdapterView
                 }
                 meeting.setSubject(editText.getText().toString());
                 meeting.setEmails(ApiServiceGenerator.EMAILS);
-                mApiServices.addMeeting(meeting);
-                rv.getAdapter().notifyDataSetChanged();
+                try {
+                    long time = mApiServices.getSpinnerTime(spinnerday.getSelectedItem().toString(), spinnermonth.getSelectedItem().toString(),
+                     spinneryear.getSelectedItem().toString(), spinnerhours.getSelectedItem().toString(), spinnerminutes.getSelectedItem().toString());
+                    meeting.setTimestamp(time);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Intent intent = new Intent(AddMeetingActivity.this,ListActivity.class);
+                intent.putExtra(MEETING_EXTRA,meeting);
+                startActivity(intent);
+                Toast.makeText(getApplicationContext(),"Réunion enregistrée",Toast.LENGTH_SHORT).show();
             }
         });
 
