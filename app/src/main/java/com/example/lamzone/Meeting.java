@@ -3,9 +3,10 @@ package com.example.lamzone;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Comparator;
 import java.util.List;
 
-public class Meeting implements Parcelable {
+public class Meeting implements Parcelable, Comparable<Meeting> {
 
     //VARIABLES
     private  int id;
@@ -26,12 +27,26 @@ public class Meeting implements Parcelable {
         this.location = location;
     }
 
+
     protected Meeting(Parcel in) {
         id = in.readInt();
         timestamp = in.readLong();
         subject = in.readString();
         emails = in.createStringArrayList();
+        location = in.readParcelable(Room.class.getClassLoader());
     }
+
+    public static final Creator<Meeting> CREATOR = new Creator<Meeting>() {
+        @Override
+        public Meeting createFromParcel(Parcel in) {
+            return new Meeting(in);
+        }
+
+        @Override
+        public Meeting[] newArray(int size) {
+            return new Meeting[size];
+        }
+    };
 
     //GETTER AND SETTER
     public int getId() {
@@ -74,6 +89,7 @@ public class Meeting implements Parcelable {
         this.location = location;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -85,17 +101,12 @@ public class Meeting implements Parcelable {
         dest.writeLong(timestamp);
         dest.writeString(subject);
         dest.writeStringList(emails);
+        dest.writeParcelable(location, flags);
     }
-    public static final Creator<Meeting> CREATOR = new Creator<Meeting>() {
-        @Override
-        public Meeting createFromParcel(Parcel in) {
-            return new Meeting(in);
-        }
 
-        @Override
-        public Meeting[] newArray(int size) {
-            return new Meeting[size];
-        }
-    };
+    @Override
+    public int compareTo(Meeting o) {
+        return 0;
+    }
 }
 
