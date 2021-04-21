@@ -3,79 +3,72 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/grey_light">
+    android:layout_height="match_parent">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/content1"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarAddMeeting"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="30dp"
+        android:background="@color/blue"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/reunionA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
         android:layout_marginRight="20dp"
-        android:theme="@style/Base.CardView"
+        android:text="@string/reunionA"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:background="@drawable/custom_bottom"
+        app:layout_constraintEnd_toStartOf="@id/reunionB"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/reunionB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:text="@string/reunionB"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:background="@drawable/custom_bottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="20dp">
+    <Button
+        android:id="@+id/reunionC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="80dp"
+        android:text="@string/reunionC"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:background="@drawable/custom_bottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@id/reunionB"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/reunionA"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:layout_marginRight="20dp"
-                android:text="@string/reunionA"
-                app:layout_constraintEnd_toStartOf="@id/reunionB"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/roomSelected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Vous avez sélectionner la salle: "
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/reunionB">
 
-            <Button
-                android:id="@+id/reunionB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:text="@string/reunionB"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/reunionC"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="50dp"
-                android:text="@string/reunionC"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@id/reunionB"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/roomSelected"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Vous avez sélectionner la salle: "
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/reunionB">
-
-            </TextView>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    </androidx.cardview.widget.CardView>
+    </TextView>
 
 
     <EditText
@@ -84,126 +77,67 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:hint="Sujet de la réunion"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:textAlignment="center"
+        android:background="@drawable/custom_bottom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/content1" />
+        app:layout_constraintTop_toBottomOf="@id/reunionB" />
 
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/contentTime"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/datePicker"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="30dp"
         android:layout_marginRight="20dp"
-        android:padding="30dp"
-        android:theme="@style/Base.CardView"
-        app:layout_constraintTop_toBottomOf="@id/edittext">
+        android:hint="Date"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:background="@drawable/custom_bottom"
+        android:gravity="center"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edittext" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="20dp">
+    <TextView
+        android:id="@+id/timePicker"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="20dp"
+        android:hint="Heure"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:background="@drawable/custom_bottom"
+        android:gravity="center"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/datePicker" />
 
-            <LinearLayout
-                android:id="@+id/contentdate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@id/contenthours"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteY="30dp">
-
-                <Spinner
-                    android:id="@+id/spinnerday"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/day"
-                    android:hint="jour"
-                    android:textColor="@color/black"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/spinnermonth"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                </Spinner>
-
-                <Spinner
-                    android:id="@+id/spinnermonth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/month"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                </Spinner>
-
-                <Spinner
-                    android:id="@+id/spinneryear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/year"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/spinnermonth"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                </Spinner>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/contenthours"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/contentdate">
-
-                <Spinner
-                    android:id="@+id/spinnerhours"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/hours"
-                    app:layout_constraintEnd_toStartOf="@id/spinnerminutes"
-                    app:layout_constraintTop_toBottomOf="@id/spinnermonth">
-
-                </Spinner>
-
-                <Spinner
-                    android:id="@+id/spinnerminutes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/minutes"
-                    app:layout_constraintStart_toEndOf="@id/spinnerhours"
-                    app:layout_constraintTop_toBottomOf="@id/spinnermonth">
-
-                </Spinner>
-            </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
 
     <Button
         android:id="@+id/submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
         android:layout_marginTop="30dp"
+        android:layout_marginRight="40dp"
         android:text="@string/submit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/contentTime"></Button>
+        app:layout_constraintTop_toBottomOf="@id/timePicker" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
