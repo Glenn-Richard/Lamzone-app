@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/filter"
+        app:showAsAction="always"
+        android:title="Filter"
+        android:icon="@drawable/ic_baseline_filter_list_24"
+        >
+        <menu>
+            <item android:title="Filtre par date"
+                  android:id="@+id/dateFilter"/>
+            <item android:title="Filtre par salle">
+                <menu>
+                    <item android:title="Réunion A"
+                        android:id="@+id/reunionA"/>
+                    <item android:title="Réunion B"
+                          android:id="@+id/reunionB"/>
+                    <item android:title="Réunion C"
+                          android:id="@+id/reunionC"/>
+                </menu>
+            </item>
+        </menu>
+    </item>
+</menu>

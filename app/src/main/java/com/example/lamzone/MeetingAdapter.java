@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -27,9 +28,9 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
     List<Meeting> mMeetings;
     ListItemListener mListener;
 
-    public MeetingAdapter(List<Meeting> items, ListItemListener listener){
-        mMeetings = items;
+    public MeetingAdapter(ListItemListener listener){
         mListener=listener;
+        mMeetings=new ArrayList<Meeting>();
     }
 
     @NonNull
@@ -52,6 +53,11 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
         return mMeetings.size();
     }
 
+    public  void updateList(ArrayList<Meeting> meetings){
+        mMeetings.clear();
+        mMeetings.addAll(meetings);
+        notifyDataSetChanged();
+    }
     public class ViewHolder extends RecyclerView.ViewHolder{
         private final ImageView image;
         private final TextView ttop;
@@ -74,21 +80,22 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
         @SuppressLint("SetTextI18n")
         public void display(Meeting meeting){
             currentMeeting = meeting;
+
             Calendar cal = Calendar.getInstance();
             cal.setTimeInMillis(currentMeeting.getTimestamp()*1000);
             time = DateFormat.format("dd/MM HH:mm",cal).toString();
 
-            if(currentMeeting.getLocation().getName()=="Reunion A"){
-            Glide.with(itemView.getContext())
-                    .load(R.mipmap.blue)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(image);}
-            if(currentMeeting.getLocation().getName()=="Reunion B"){
+            if(currentMeeting.getLocation().getName().equals("Reunion A")){
+                Glide.with(itemView.getContext())
+                        .load(R.mipmap.blue)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(image);}
+            if(currentMeeting.getLocation().getName().equals("Reunion B")){
                 Glide.with(itemView.getContext())
                         .load(R.mipmap.orange)
                         .apply(RequestOptions.circleCropTransform())
                         .into(image);}
-            if(currentMeeting.getLocation().getName()=="Reunion C"){
+            if(currentMeeting.getLocation().getName().equals("Reunion C")){
                 Glide.with(itemView.getContext())
                         .load(R.mipmap.magenta)
                         .apply(RequestOptions.circleCropTransform())
