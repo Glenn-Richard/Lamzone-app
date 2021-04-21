@@ -6,6 +6,9 @@ import com.example.lamzone.Meeting;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -32,54 +35,150 @@ public class ApiMeetingServices implements ApiSerivces {
         getMeetings().add(meeting);
     }
 
+
     @Override
-    public long getSpinnerTime(String day, String month, String year, String hour, String minute) throws ParseException {
+    public String getPickerDate(String day, String month, String year) {
+
+        switch (day){
+            case "1":
+                day = "01";
+            break;
+            case "2":
+                day = "02";
+            break;
+            case "3":
+                day = "03";
+            break;
+            case "4":
+                day = "04";
+            break;
+            case "5":
+                day = "05";
+            break;
+            case "6":
+                day = "06";
+            break;
+            case "7":
+                day = "07";
+            break;
+            case "8":
+                day = "08";
+            break;
+            case "9":
+                day = "09";
+            break;
+        }
         String mois = "";
         switch (month){
-            case "Janv":
+            case "1":
                 mois = "01";
                 break;
-                case "Fev":
+                case "2":
                 mois = "02";
                 break;
-                case "Mars":
+                case "3":
                 mois = "03";
                 break;
-                case "Avril":
+                case "4":
                 mois = "04";
                 break;
-                case "Mai":
+                case "5":
                 mois = "05";
                 break;
-                case "Juin":
+                case "6":
                 mois = "06";
                 break;
-                case "Juil":
+                case "7":
                 mois = "07";
                 break;
-                case "Août":
+                case "8":
                 mois = "08";
                 break;
-                case "Sept":
+                case "9":
                 mois = "09";
                 break;
-                case "Oct":
+                case "10":
                 mois = "10";
                 break;
-                case "Nov":
+                case "11":
                 mois = "11";
                 break;
-                case "Dec":
+                case "12":
                 mois = "12";
                 break;
         }
-        String date1 = "";
-        date1 = year+"-"+mois+"-"+day+" "+hour+":"+minute+":00";
-        @SuppressLint("SimpleDateFormat")
-        SimpleDateFormat datetimeFormatter1 = new SimpleDateFormat(
-                "yyyy-MM-dd hh:mm:ss");
-        Date lFromDate1 = datetimeFormatter1.parse(date1);
+        String date = mois+"-"+day+"-"+year;
 
-        return Objects.requireNonNull(lFromDate1).getTime();
+        return date;
+    }
+    @Override
+    public String getPickerTime(String hour, String minute){
+        switch (hour){
+            case "0":
+                hour = "00";
+            break;
+            case "1":
+                hour = "01";
+            break;
+            case "2":
+                hour = "02";
+            break;
+            case "3":
+                hour = "03";
+            break;
+            case "4":
+                hour = "04";
+            break;
+            case "5":
+                hour = "05";
+            break;
+            case "6":
+                hour = "06";
+            break;
+            case "7":
+                hour = "07";
+            break;
+            case "8":
+                hour = "08";
+            break;
+            case "9":
+                hour = "09";
+            break;
+        }
+        switch (minute){
+            case "0":
+                minute = "00";
+                break;
+            case "1":
+                minute = "01";
+                break;
+            case "2":
+                minute = "02";
+                break;
+            case "3":
+                minute = "03";
+                break;
+            case "4":
+                minute = "04";
+                break;
+            case "5":
+                minute = "05";
+                break;
+            case "6":
+                minute = "06";
+                break;
+            case "7":
+                minute = "07";
+                break;
+            case "8":
+                minute = "08";
+                break;
+            case "9":
+                minute = "09";
+                break;
+        }
+
+        String time = hour+":"+minute+":00";
+        return time;
     }
 }

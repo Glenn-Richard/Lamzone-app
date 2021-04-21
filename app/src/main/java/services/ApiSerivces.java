@@ -14,5 +14,7 @@ public interface ApiSerivces {
 
     void addMeeting(Meeting meeting);
 
-    long getSpinnerTime(String day, String month, String year, String hour, String minute) throws ParseException;
+    String getPickerDate(String day, String month, String year);
+
+    String getPickerTime(String hour,String minute);
 }
