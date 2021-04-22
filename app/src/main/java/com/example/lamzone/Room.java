@@ -10,18 +10,21 @@ public class Room implements Parcelable {
 
     private int id;
     private String name;
+    private int color;
 
     //CONSTRUCTORS
     public Room(){}
 
-    public Room(int id, String name) {
+    public Room(int id, String name, int color) {
         this.id = id;
         this.name = name;
+        this.color = color;
     }
 
     protected Room(Parcel in) {
         id = in.readInt();
         name = in.readString();
+        color = in.readInt();
     }
 
     public static final Creator<Room> CREATOR = new Creator<Room>() {
@@ -52,6 +55,9 @@ public class Room implements Parcelable {
     public void setName(String name) {
         this.name = name;
     }
+    public int getColor() { return color; }
+
+    public void setColor(int color) { this.color = color; }
 
     @Override
     public int describeContents() {
@@ -62,5 +68,8 @@ public class Room implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(name);
+        dest.writeInt(color);
     }
+
+
 }

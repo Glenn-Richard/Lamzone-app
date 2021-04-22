@@ -2,9 +2,12 @@
   <dictionary name="Glenn-Richard">
     <words>
       <w>autoscroll</w>
+      <w>requis</w>
+      <w>réunion</w>
       <w>spinnerday</w>
       <w>spinnermonth</w>
       <w>spinneryear</w>
+      <w>sélectionner</w>
     </words>
   </dictionary>
 </component>

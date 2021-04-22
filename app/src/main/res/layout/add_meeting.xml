@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,80 +11,74 @@
         android:background="@color/blue"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <Button
-        android:id="@+id/reunionA"
-        android:layout_width="wrap_content"
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:layout_marginRight="20dp"
-        android:text="@string/reunionA"
-        android:textColor="@color/white"
-        android:textAllCaps="false"
-        android:background="@drawable/custom_bottom"
-        app:layout_constraintEnd_toStartOf="@id/reunionB"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/reunionB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:text="@string/reunionB"
-        android:textColor="@color/white"
-        android:textAllCaps="false"
-        android:background="@drawable/custom_bottom"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/spinner_style"
+        android:entries="@array/rooms"
+        app:layout_constraintBottom_toTopOf="@id/roomSelected"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/reunionC"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="80dp"
-        android:text="@string/reunionC"
-        android:textColor="@color/white"
-        android:textAllCaps="false"
-        android:background="@drawable/custom_bottom"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@id/reunionB"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/toolbarAddMeeting" />
 
     <TextView
+        android:id="@+id/alert_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinner" />
+
+    <LinearLayout
         android:id="@+id/roomSelected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Vous avez sélectionner la salle: "
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/reunionB">
+        app:layout_constraintTop_toBottomOf="@id/spinner">
 
-    </TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vous avez sélectionner la salle: "
+            app:layout_constraintTop_toBottomOf="@id/spinner" />
 
+        <TextView
+            android:id="@+id/room"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
     <EditText
         android:id="@+id/edittext"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:hint="Sujet de la réunion"
-        android:textColorHint="@color/white"
-        android:textColor="@color/white"
-        android:textAllCaps="false"
-        android:textAlignment="center"
+        android:layout_marginTop="30dp"
         android:background="@drawable/custom_bottom"
+        android:hint="Sujet de la réunion"
+        android:textAlignment="center"
+        android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/reunionB" />
+        app:layout_constraintTop_toBottomOf="@id/roomSelected" />
+
+    <TextView
+        android:id="@+id/alert_subject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edittext" />
 
 
     <TextView
@@ -95,17 +88,25 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="30dp"
         android:layout_marginRight="20dp"
-        android:hint="Date"
-        android:textColorHint="@color/white"
-        android:textColor="@color/white"
-        android:textAllCaps="false"
         android:background="@drawable/custom_bottom"
         android:gravity="center"
+        android:hint="Sélectionner une date"
+        android:textAllCaps="false"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/edittext" />
+
+    <TextView
+        android:id="@+id/alert_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/datePicker" />
 
     <TextView
         android:id="@+id/timePicker"
@@ -114,30 +115,61 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="30dp"
         android:layout_marginRight="20dp"
-        android:hint="Heure"
-        android:textColorHint="@color/white"
-        android:textColor="@color/white"
-        android:textAllCaps="false"
         android:background="@drawable/custom_bottom"
         android:gravity="center"
+        android:hint="Sélectionner une heure"
+        android:textAllCaps="false"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/datePicker" />
 
-
-    <Button
-        android:id="@+id/submit"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/alert_hour"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="40dp"
-        android:text="@string/submit"
+        android:textColor="@color/red"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/timePicker" />
+
+
+    <EditText
+        android:id="@+id/email_selector"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="Entrer 5 emails séparés en virgule"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:inputType="textEmailAddress"
+        android:background="@drawable/custom_bottom"
+        android:drawableEnd="@drawable/submitted_emails_style"
+        app:layout_constraintTop_toBottomOf="@id/timePicker"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+    <TextView
+        android:id="@+id/alert_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/email_selector" />
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="@color/blue"
+        android:text="@string/submit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/email_selector" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

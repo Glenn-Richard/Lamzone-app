@@ -1,5 +1,6 @@
 package com.example.lamzone;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -7,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -23,18 +25,34 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import services.ApiMeetingServices;
 import services.ApiSerivces;
 import services.ApiServiceGenerator;
 
-public class AddMeetingActivity extends ListActivity{
+public class AddMeetingActivity extends ListActivity implements AdapterView.OnItemSelectedListener{
 
     ApiSerivces mApiServices = new ApiMeetingServices();
-    int LAUNCH_SECOND_ACTIVITY = 1;
+    Calendar cal1 = Calendar.getInstance();
+    Calendar cal2 = Calendar.getInstance();
+    Calendar calGlobal = Calendar.getInstance();
+
+    @SuppressLint("SimpleDateFormat")
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    @SuppressLint("SimpleDateFormat")
+    SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+
+    TextView text;
+
+    String timeString;
+    String dateString;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,125 +62,168 @@ public class AddMeetingActivity extends ListActivity{
         Toolbar toolbar = findViewById(R.id.toolbarAddMeeting);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("New Meeting");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("New Meeting");
 
-        Button buttonA = findViewById(R.id.reunionA);
-        Button buttonB = findViewById(R.id.reunionB);
-        Button buttonC = findViewById(R.id.reunionC);
+        Spinner spinner = findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.rooms,
+                android.R.layout.simple_spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+
         Button submit = findViewById(R.id.submit);
 
-        TextView text = findViewById(R.id.roomSelected);
+        text = findViewById(R.id.room);
+        TextView alert_spinner = findViewById(R.id.alert_spinner);
+        TextView alert_subject = findViewById(R.id.alert_subject);
+        TextView alert_date = findViewById(R.id.alert_date);
+        TextView alert_hour = findViewById(R.id.alert_hour);
+        TextView alert_emails = findViewById(R.id.alert_email);
         TextView timeTv = findViewById(R.id.timePicker);
         TextView dateTv = findViewById(R.id.datePicker);
 
-
         EditText editText = findViewById(R.id.edittext);
+        EditText email = findViewById(R.id.email_selector);
 
+        //TIME_PICKER_DIALOG
+        timeTv.setOnClickListener(v -> {
+            // Time Set Listener.
+            TimePickerDialog.OnTimeSetListener timeSetListener = (view, hourOfDay, minute) -> {
 
-        buttonA.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                text.setText("Vous avez sélectionner la salle: A");
-            }
-        });
-        buttonB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                text.setText("Vous avez sélectionner la salle: B");
-            }
-        });
-        buttonC.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                text.setText("Vous avez sélectionner la salle: C");
-            }
+                cal1.set(Calendar.HOUR_OF_DAY,hourOfDay);
+                cal1.set(Calendar.MINUTE,minute);
+                timeTv.setText(timeString= timeFormat.format(cal1.getTime()));
+            };
+
+            TimePickerDialog timePickerDialog = new TimePickerDialog(AddMeetingActivity.this,
+                    timeSetListener, 12, 00, true);
+
+            timePickerDialog.show();
         });
 
-        timeTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean is24HView = true;
+        //DATE_PICKER_DIALOG
+        dateTv.setOnClickListener(v -> {
+            DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
+                cal2.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+                cal2.set(Calendar.MONTH,month);
+                cal2.set(Calendar.YEAR,year);
+                dateTv.setText(dateString = dateFormat.format(cal2.getTime()));
+            };
+            DatePickerDialog datePickerDialog = new DatePickerDialog(AddMeetingActivity.this,
+                    dateSetListener,2021,01,01);
 
-// Time Set Listener.
-                TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
-
-
-
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        timeTv.setText(mApiServices.getPickerTime(String.valueOf(hourOfDay),String.valueOf(minute)));
-                    }
-                };
-
-                TimePickerDialog timePickerDialog = new TimePickerDialog(AddMeetingActivity.this,
-                        timeSetListener, 12, 00, is24HView);
-
-
-                timePickerDialog.show();
-            }
+            datePickerDialog.show();
         });
 
-        dateTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        month++;
-                        dateTv.setText(mApiServices.getPickerDate(String.valueOf(dayOfMonth),String.valueOf(month),String.valueOf(year)));
-                    }
-                };
-                DatePickerDialog datePickerDialog = new DatePickerDialog(AddMeetingActivity.this,
-                        dateSetListener,2021,01,01);
-
-                datePickerDialog.show();
+        submit.setOnClickListener(v -> {
+            List<String> emails = new ArrayList<>();
+            emails = Arrays.asList(email.getText().toString().split(","));
+            if (text.getText().toString().equals("")){
+                alert_spinner.setText("champs requis");
+                Toast.makeText(getApplicationContext(),"Veuillez choisir une salle",Toast.LENGTH_LONG).show();
             }
-        });
-
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            else if (editText.getText().toString().equals(""))
+            {
+                alert_subject.setText("champs requis");
+                Toast.makeText(getApplicationContext(),"Veuillez définir le sujet de réunion",Toast.LENGTH_LONG).show();
+            }
+            else if (dateTv.getText().toString().equals(""))
+            {
+                alert_date.setText("champs requis");
+                Toast.makeText(getApplicationContext(),"Veuillez sélectionner une date",Toast.LENGTH_LONG).show();
+            }
+            else if(timeTv.getText().toString().equals(""))
+            {
+                alert_hour.setText("champs requis");
+                Toast.makeText(getApplicationContext(),"Veuillez sélectionner une heure",Toast.LENGTH_LONG);
+            }
+            else if (email.getText().toString().equals(""))
+            {
+                alert_emails.setText("champs requis");
+                Toast.makeText(getApplicationContext(),"Veuillez sélectionner au moins un email",Toast.LENGTH_LONG).show();
+            }
+            else if (emails.size()>5)
+            {
+                alert_emails.setText("5 emails maximum");
+                Toast.makeText(getApplicationContext(),"Veuillez sélectionner 5 emails maximum",Toast.LENGTH_LONG).show();
+            }
+            else
+                {
                 Meeting meeting = new Meeting();
                 Room room = new Room();
+                // SETTING ID
                 meeting.setId(mApiServices.getMeetings().size());
+
+                //SETTING LOCATION
                 switch (text.getText().toString()) {
-                    case "Vous avez sélectionner la salle: A":
+                    case "A":
                         room.setName("Reunion A");
                         room.setId(00);
+                        room.setColor(R.mipmap.blue);
                         meeting.setLocation(room);
                         break;
-                    case "Vous avez sélectionner la salle: B":
+                    case "B":
                         room.setName("Reunion B");
                         room.setId(01);
+                        room.setColor(R.mipmap.orange);
                         meeting.setLocation(room);
                         break;
-                    case "Vous avez sélectionner la salle: C":
+                    case "C":
                         room.setName("Reunion C");
                         room.setId(02);
+                        room.setColor(R.mipmap.magenta);
                         meeting.setLocation(room);
                         break;
                 }
+
+                //SETTING SUBJECT
                 meeting.setSubject(editText.getText().toString());
-                meeting.setEmails(ApiServiceGenerator.EMAILS);
-                String date = dateTv.getText()+" "+timeTv.getText();
-                SimpleDateFormat datetimeFormatter1 = new SimpleDateFormat(
-                        "MM-dd-yyyy HH:mm:ss");
-                Date lFromDate1 = new Date();
-                try {
-                    lFromDate1 = datetimeFormatter1.parse(date);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                long data = lFromDate1.getTime()/1000;
+
+                //SETTING EMAILS
+                meeting.setEmails(emails);
+
+                //SETTING DATE & TIME
+                calGlobal.set(cal2.get(Calendar.YEAR),cal2.get(Calendar.MONTH),cal2.get(Calendar.DAY_OF_MONTH),
+                        cal1.get(Calendar.HOUR_OF_DAY),cal1.get(Calendar.MINUTE));
+                long data = calGlobal.getTime().getTime();
                 meeting.setTimestamp(data);
+
+                //SEND DATA TO LIST_ACTIVITY
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("result",meeting);
-                Toast.makeText(AddMeetingActivity.this,String.valueOf(meeting.getId()),Toast.LENGTH_LONG).show();
                 setResult(RESULT_OK,returnIntent);
+
                 Toast.makeText(getApplicationContext(),"Réunion enregistrée",Toast.LENGTH_SHORT).show();
+
                 finish();
             }
+
         });
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (parent.getItemAtPosition(position).toString().equals("Réunion A")){
+            text.setText("A");
+            Toast.makeText(this, parent.getSelectedItem().toString(),Toast.LENGTH_SHORT).show();
+        }
+        if (parent.getItemAtPosition(position).toString().equals("Réunion B")){
+            text.setText("B");
+            Toast.makeText(this, parent.getSelectedItem().toString(),Toast.LENGTH_SHORT).show();
+        }
+        if (parent.getItemAtPosition(position).toString().equals("Réunion C")){
+            text.setText("C");
+            Toast.makeText(this, parent.getSelectedItem().toString(),Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 }

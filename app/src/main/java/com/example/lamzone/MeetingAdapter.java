@@ -82,26 +82,15 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
             currentMeeting = meeting;
 
             Calendar cal = Calendar.getInstance();
-            cal.setTimeInMillis(currentMeeting.getTimestamp()*1000);
+            cal.setTimeInMillis(currentMeeting.getTimestamp());
             time = DateFormat.format("dd/MM HH:mm",cal).toString();
 
-            if(currentMeeting.getLocation().getName().equals("Reunion A")){
-                Glide.with(itemView.getContext())
-                        .load(R.mipmap.blue)
+            Glide.with(itemView.getContext())
+                        .load(currentMeeting.getLocation().getColor())
                         .apply(RequestOptions.circleCropTransform())
-                        .into(image);}
-            if(currentMeeting.getLocation().getName().equals("Reunion B")){
-                Glide.with(itemView.getContext())
-                        .load(R.mipmap.orange)
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(image);}
-            if(currentMeeting.getLocation().getName().equals("Reunion C")){
-                Glide.with(itemView.getContext())
-                        .load(R.mipmap.magenta)
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(image);}
+                        .into(image);
 
-            ttop.setText(currentMeeting.getLocation().getName()+"-"+time+"-"+ currentMeeting.getSubject());
+            ttop.setText(currentMeeting.getLocation().getName()+" - "+time+" - "+ currentMeeting.getSubject());
             List<String> emails = currentMeeting.getEmails();
             String email = emails.get(0);
 

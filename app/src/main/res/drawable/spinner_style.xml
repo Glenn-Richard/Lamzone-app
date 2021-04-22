@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/white" />
+                    <corners android:radius="30dp" />
+                    <stroke android:color="@color/black" android:width="1dp" />
+                </shape>
+
+            </item>
+            <item>
+                <bitmap
+                    android:src="@drawable/down_spinner"
+                    android:gravity="center|end"
+                    />
+            </item>
+            <item>
+                <animated-selector
+                    android:fromId="@+id/start"
+                    android:toId="@+id/end" />
+                <animation-list android:oneshot="true" />
+            </item>
+        </layer-list>
+    </item>
+</selector>

@@ -1,6 +1,7 @@
 package services;
 
 import com.example.lamzone.Meeting;
+import com.example.lamzone.R;
 import com.example.lamzone.Room;
 
 import java.util.ArrayList;
@@ -20,18 +21,18 @@ public abstract class ApiServiceGenerator {
 
     //Liste de salles de reunion
     public static List<Room> ROOMS = Arrays.asList(
-            new Room(0,"Reunion A"),
-            new Room(1,"Reunion B"),
-            new Room(2,"Reunion C")
+            new Room(0,"Reunion A",R.mipmap.blue),
+            new Room(1,"Reunion B", R.mipmap.orange),
+            new Room(2,"Reunion C", R.mipmap.magenta)
     );
 
     //Liste de meeting
     public static List<Meeting> MEETINGS = Arrays.asList(
-      new Meeting(000,1618491600,"Brainstorming",EMAILS, ROOMS.get(0)),
-      new Meeting(001,1618484400,"Planning",EMAILS, ROOMS.get(2)),
-      new Meeting(002,1618504200,"Budget",EMAILS, ROOMS.get(1)),
-      new Meeting(003,1618504200,"Fusion",EMAILS, ROOMS.get(2)),
-      new Meeting(004,1618565400,"Press",EMAILS, ROOMS.get(0))
+      new Meeting(000,1618491600000L,"Brainstorming",EMAILS, ROOMS.get(0)),
+      new Meeting(001,1618484400000L,"Planning",EMAILS, ROOMS.get(2)),
+      new Meeting(002,1618504200000L,"Budget",EMAILS, ROOMS.get(1)),
+      new Meeting(003,1618504200000L,"Fusion",EMAILS, ROOMS.get(2)),
+      new Meeting(004,1618565400000L,"Press",EMAILS, ROOMS.get(0))
     );
 
     static List<Meeting> generateMeetings(){return new ArrayList<>(MEETINGS);}

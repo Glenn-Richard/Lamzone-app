@@ -47,7 +47,7 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recyclerview_list);
-          rv = findViewById(R.id.list_item_rv);
+        rv = findViewById(R.id.list_item_rv);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
         mMeetings.addAll(mApiServices.getMeetings());
