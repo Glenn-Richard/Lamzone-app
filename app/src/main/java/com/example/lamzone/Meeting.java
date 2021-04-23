@@ -3,7 +3,6 @@ package com.example.lamzone;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Comparator;
 import java.util.List;
 
 public class Meeting implements Parcelable, Comparable<Meeting> {

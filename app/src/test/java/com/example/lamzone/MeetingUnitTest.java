@@ -48,17 +48,4 @@ public class MeetingUnitTest {
         assertTrue(meetings.contains(meeting));
     }
 
-    @Test
-    public void getPickerDateWithSuccess(){
-        String day = "1", month = "2";
-        String date = apiSerivces.getPickerDate(day,month,"2021");
-        assertEquals(date,"02-01-2021");
-    }
-
-    @Test
-    public void getPickerTimeWithSuccess(){
-        String hour = "0", minute = "9";
-        String date = apiSerivces.getPickerTime(hour,minute);
-        assertEquals(date,"00:09:00");
-    }
 }
