@@ -4,6 +4,13 @@
     <string name="reunionB">Réunion B</string>
     <string name="reunionC">Réunion C</string>
     <string name="submit">Valider la réunion</string>
+    <string name="ma_reu">Ma réu</string>
+    <string name="selectionnez_une_reunion">Sélectionnez une réunion</string>
+    <string name="filtre_reunion">Filtre réunion</string>
+    <string name="filter">Filtrer</string>
+    <string name="filtre_par_date">Filtre par date</string>
+    <string name="filtre_par_salle">Filtre par salle</string>
+    <string name="toutes_les_r_unions">Toutes les réunions</string>
     <string-array name="month">
         <item>Mois</item>
         <item></item>

@@ -29,6 +29,7 @@ import services.ApiSerivces;
 public class AddMeetingActivity extends ListActivity implements AdapterView.OnItemSelectedListener{
 
     ApiSerivces mApiServices = new ApiMeetingServices();
+
     Calendar cal1 = Calendar.getInstance();
     Calendar cal2 = Calendar.getInstance();
     Calendar calGlobal = Calendar.getInstance();
@@ -38,7 +39,25 @@ public class AddMeetingActivity extends ListActivity implements AdapterView.OnIt
     @SuppressLint("SimpleDateFormat")
     SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
+    ArrayAdapter<CharSequence> adapter;
+
+    Boolean check = false;
+
+    Spinner spinner;
+
     TextView text;
+    TextView alert_spinner;
+    TextView alert_subject;
+    TextView alert_date;
+    TextView alert_hour;
+    TextView alert_emails;
+    TextView timeTv;
+    TextView dateTv;
+
+    EditText editText;
+    EditText email;
+
+    Button submit;
 
     String timeString;
     String dateString;
@@ -53,8 +72,8 @@ public class AddMeetingActivity extends ListActivity implements AdapterView.OnIt
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("New Meeting");
 
-        Spinner spinner = findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+        spinner = findViewById(R.id.spinner);
+        adapter = ArrayAdapter.createFromResource(
                 this,
                 R.array.rooms,
                 android.R.layout.simple_spinner_item
@@ -63,20 +82,152 @@ public class AddMeetingActivity extends ListActivity implements AdapterView.OnIt
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
-        Button submit = findViewById(R.id.submit);
+        submit = findViewById(R.id.submit);
 
         text = findViewById(R.id.room);
-        TextView alert_spinner = findViewById(R.id.alert_spinner);
-        TextView alert_subject = findViewById(R.id.alert_subject);
-        TextView alert_date = findViewById(R.id.alert_date);
-        TextView alert_hour = findViewById(R.id.alert_hour);
-        TextView alert_emails = findViewById(R.id.alert_email);
-        TextView timeTv = findViewById(R.id.timePicker);
-        TextView dateTv = findViewById(R.id.datePicker);
+        alert_spinner = findViewById(R.id.alert_spinner);
+        alert_subject = findViewById(R.id.alert_subject);
+        alert_date = findViewById(R.id.alert_date);
+        alert_hour = findViewById(R.id.alert_hour);
+        alert_emails = findViewById(R.id.alert_email);
+        timeTv = findViewById(R.id.timePicker);
+        dateTv = findViewById(R.id.datePicker);
 
-        EditText editText = findViewById(R.id.edittext);
-        EditText email = findViewById(R.id.email_selector);
+        editText = findViewById(R.id.edittext);
+        email = findViewById(R.id.email_selector);
 
+        getTimePickerDialog();
+        getDatePickerDialog();
+
+        submit.setOnClickListener(v -> {
+            submitChecking();
+            if (check){
+                Meeting meeting = setMeetingSubmitted();
+                sendDataToLastActivity(meeting);
+            }
+        });
+    }
+
+    private void sendDataToLastActivity(Meeting meeting) {
+        //SEND DATA TO LIST_ACTIVITY
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("result",meeting);
+        setResult(RESULT_OK,returnIntent);
+
+        Toast.makeText(getApplicationContext(),"Réunion enregistrée",Toast.LENGTH_SHORT).show();
+
+        finish();
+    }
+
+    private Meeting setMeetingSubmitted() {
+
+        List<String> emails;
+        emails = Arrays.asList(email.getText().toString().split(","));
+
+        Meeting meeting = new Meeting();
+        Room room = new Room();
+        // SETTING ID
+        meeting.setId(mApiServices.getMeetings().size());
+
+        //SETTING LOCATION
+        switch (text.getText().toString()) {
+            case "A":
+                room.setName("Reunion A");
+                room.setId(00);
+                room.setColor(R.mipmap.blue);
+                meeting.setLocation(room);
+                break;
+            case "B":
+                room.setName("Reunion B");
+                room.setId(01);
+                room.setColor(R.mipmap.orange);
+                meeting.setLocation(room);
+                break;
+            case "C":
+                room.setName("Reunion C");
+                room.setId(02);
+                room.setColor(R.mipmap.magenta);
+                meeting.setLocation(room);
+                break;
+        }
+
+        //SETTING SUBJECT
+        meeting.setSubject(editText.getText().toString());
+
+        //SETTING EMAILS
+        meeting.setEmails(emails);
+
+        //SETTING DATE & TIME
+        calGlobal.set(cal2.get(Calendar.YEAR),cal2.get(Calendar.MONTH),cal2.get(Calendar.DAY_OF_MONTH),
+                cal1.get(Calendar.HOUR_OF_DAY),cal1.get(Calendar.MINUTE));
+        long data = calGlobal.getTime().getTime();
+        meeting.setTimestamp(data);
+        return meeting;
+    }
+
+    private void submitChecking() {
+        List<String> emails;
+        emails = Arrays.asList(email.getText().toString().split(","));
+
+        if (text.getText().toString().equals("")){
+            alert_spinner.setText("champs requis");
+            check = false;
+            Toast.makeText(getApplicationContext(),"Veuillez choisir une salle",Toast.LENGTH_LONG).show();
+        }
+        else if (editText.getText().toString().equals(""))
+        {
+            alert_subject.setText("champs requis");
+            check = false;
+            Toast.makeText(getApplicationContext(),"Veuillez définir le sujet de réunion",Toast.LENGTH_LONG).show();
+        }
+        else if (dateTv.getText().toString().equals(""))
+        {
+            alert_date.setText("champs requis");
+            check = false;
+            Toast.makeText(getApplicationContext(),"Veuillez sélectionner une date",Toast.LENGTH_LONG).show();
+        }
+        else if(timeTv.getText().toString().equals(""))
+        {
+            alert_hour.setText("champs requis");
+            check = false;
+            Toast.makeText(getApplicationContext(),"Veuillez sélectionner une heure",Toast.LENGTH_LONG);
+        }
+        else if (email.getText().toString().equals(""))
+        {
+            alert_emails.setText("champs requis");
+            check = false;
+            Toast.makeText(getApplicationContext(),"Veuillez sélectionner au moins un email",Toast.LENGTH_LONG).show();
+        }
+        else if (emails.size()>5)
+        {
+            alert_emails.setText("5 emails maximum");
+            check = false;
+            Toast.makeText(getApplicationContext(),"Veuillez sélectionner 5 emails maximum",Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            check = true;
+        }
+
+    }
+
+    private void getDatePickerDialog() {
+        //DATE_PICKER_DIALOG
+        dateTv.setOnClickListener(v -> {
+            DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
+                cal2.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+                cal2.set(Calendar.MONTH,month);
+                cal2.set(Calendar.YEAR,year);
+                dateTv.setText(dateString = dateFormat.format(cal2.getTime()));
+            };
+            DatePickerDialog datePickerDialog = new DatePickerDialog(AddMeetingActivity.this,
+                    dateSetListener,2021,01,01);
+
+            datePickerDialog.show();
+        });
+    }
+
+    private void getTimePickerDialog() {
         //TIME_PICKER_DIALOG
         timeTv.setOnClickListener(v -> {
             // Time Set Listener.
@@ -92,106 +243,6 @@ public class AddMeetingActivity extends ListActivity implements AdapterView.OnIt
 
             timePickerDialog.show();
         });
-
-        //DATE_PICKER_DIALOG
-        dateTv.setOnClickListener(v -> {
-            DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
-                cal2.set(Calendar.DAY_OF_MONTH,dayOfMonth);
-                cal2.set(Calendar.MONTH,month);
-                cal2.set(Calendar.YEAR,year);
-                dateTv.setText(dateString = dateFormat.format(cal2.getTime()));
-            };
-            DatePickerDialog datePickerDialog = new DatePickerDialog(AddMeetingActivity.this,
-                    dateSetListener,2021,01,01);
-
-            datePickerDialog.show();
-        });
-
-        submit.setOnClickListener(v -> {
-            List<String> emails = new ArrayList<>();
-            emails = Arrays.asList(email.getText().toString().split(","));
-            if (text.getText().toString().equals("")){
-                alert_spinner.setText("champs requis");
-                Toast.makeText(getApplicationContext(),"Veuillez choisir une salle",Toast.LENGTH_LONG).show();
-            }
-            else if (editText.getText().toString().equals(""))
-            {
-                alert_subject.setText("champs requis");
-                Toast.makeText(getApplicationContext(),"Veuillez définir le sujet de réunion",Toast.LENGTH_LONG).show();
-            }
-            else if (dateTv.getText().toString().equals(""))
-            {
-                alert_date.setText("champs requis");
-                Toast.makeText(getApplicationContext(),"Veuillez sélectionner une date",Toast.LENGTH_LONG).show();
-            }
-            else if(timeTv.getText().toString().equals(""))
-            {
-                alert_hour.setText("champs requis");
-                Toast.makeText(getApplicationContext(),"Veuillez sélectionner une heure",Toast.LENGTH_LONG);
-            }
-            else if (email.getText().toString().equals(""))
-            {
-                alert_emails.setText("champs requis");
-                Toast.makeText(getApplicationContext(),"Veuillez sélectionner au moins un email",Toast.LENGTH_LONG).show();
-            }
-            else if (emails.size()>5)
-            {
-                alert_emails.setText("5 emails maximum");
-                Toast.makeText(getApplicationContext(),"Veuillez sélectionner 5 emails maximum",Toast.LENGTH_LONG).show();
-            }
-            else
-                {
-                Meeting meeting = new Meeting();
-                Room room = new Room();
-                // SETTING ID
-                meeting.setId(mApiServices.getMeetings().size());
-
-                //SETTING LOCATION
-                switch (text.getText().toString()) {
-                    case "A":
-                        room.setName("Reunion A");
-                        room.setId(00);
-                        room.setColor(R.mipmap.blue);
-                        meeting.setLocation(room);
-                        break;
-                    case "B":
-                        room.setName("Reunion B");
-                        room.setId(01);
-                        room.setColor(R.mipmap.orange);
-                        meeting.setLocation(room);
-                        break;
-                    case "C":
-                        room.setName("Reunion C");
-                        room.setId(02);
-                        room.setColor(R.mipmap.magenta);
-                        meeting.setLocation(room);
-                        break;
-                }
-
-                //SETTING SUBJECT
-                meeting.setSubject(editText.getText().toString());
-
-                //SETTING EMAILS
-                meeting.setEmails(emails);
-
-                //SETTING DATE & TIME
-                calGlobal.set(cal2.get(Calendar.YEAR),cal2.get(Calendar.MONTH),cal2.get(Calendar.DAY_OF_MONTH),
-                        cal1.get(Calendar.HOUR_OF_DAY),cal1.get(Calendar.MINUTE));
-                long data = calGlobal.getTime().getTime();
-                meeting.setTimestamp(data);
-
-                //SEND DATA TO LIST_ACTIVITY
-                Intent returnIntent = new Intent();
-                returnIntent.putExtra("result",meeting);
-                setResult(RESULT_OK,returnIntent);
-
-                Toast.makeText(getApplicationContext(),"Réunion enregistrée",Toast.LENGTH_SHORT).show();
-
-                finish();
-            }
-
-        });
-
     }
 
     @Override

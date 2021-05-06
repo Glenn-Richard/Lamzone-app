@@ -8,18 +8,15 @@
         android:icon="@drawable/ic_baseline_filter_list_24"
         >
         <menu>
-            <item android:title="Filtre par date"
+            <item
+                android:title="@string/toutes_les_r_unions"
+                android:id="@+id/SHOW_ALL"
+                app:showAsAction="never"/>
+            <item android:title="@string/filtre_par_date"
                   android:id="@+id/dateFilter"/>
-            <item android:title="Filtre par salle">
-                <menu>
-                    <item android:title="Réunion A"
-                        android:id="@+id/reunionA"/>
-                    <item android:title="Réunion B"
-                          android:id="@+id/reunionB"/>
-                    <item android:title="Réunion C"
-                          android:id="@+id/reunionC"/>
-                </menu>
-            </item>
+            <item
+                android:title="@string/filtre_par_salle"
+                android:id="@+id/roomFilter"/>
         </menu>
     </item>
 </menu>
