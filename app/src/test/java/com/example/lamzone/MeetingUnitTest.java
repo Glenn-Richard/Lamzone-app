@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -51,23 +52,27 @@ public class MeetingUnitTest{
     }
     @Test
     public void sortMeetingsByRoomWithSuccess(){
-        List<Meeting> meetings = new ArrayList<>();
-        ListActivity instance = new ListActivity();
-        meetings.addAll(instance.filterMeetingByRoom("Reunion A",apiSerivces.getMeetings()));
-        assertEquals("Reunion A", meetings.get(0).getLocation().getName());
-        assertEquals("Reunion A", meetings.get(1).getLocation().getName());
+        List<Meeting> meetings = Arrays.asList(
+                new Meeting(00,1680000000L,"toto1",ApiServiceGenerator.EMAILS,ApiServiceGenerator.ROOMS.get(0)),
+                new Meeting(01,1680000000L,"toto2",ApiServiceGenerator.EMAILS,ApiServiceGenerator.ROOMS.get(1)),
+                new Meeting(02,1680000000L,"toto3",ApiServiceGenerator.EMAILS,ApiServiceGenerator.ROOMS.get(0))
+        );
+        List<Meeting> sorted = new ArrayList<>();
+        sorted.addAll(apiSerivces.filterMeetingByRoom("Reunion A",meetings));
+        Assert.assertTrue(sorted.contains(meetings.get(0)) && sorted.contains(meetings.get(2)));
     }
     @Test
     public void sortMeetingsByDateWithSuccess(){
-        ListActivity instance = new ListActivity();
+        List<Meeting> meetings = Arrays.asList(
+                new Meeting(00,1680000000000L,"toto1",ApiServiceGenerator.EMAILS,ApiServiceGenerator.ROOMS.get(0)),
+                new Meeting(01,1618504200000L,"toto2",ApiServiceGenerator.EMAILS,ApiServiceGenerator.ROOMS.get(1)),
+                new Meeting(02,1618565400000L,"toto3",ApiServiceGenerator.EMAILS,ApiServiceGenerator.ROOMS.get(0))
+        );
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.DAY_OF_MONTH,16);
         cal.set(Calendar.MONTH,3);
         cal.set(Calendar.YEAR,2021);
-        List<Meeting> checking = new ArrayList<>();
-        checking.add(ApiServiceGenerator.MEETINGS.get(4));
-        List<Meeting> meetings = new ArrayList<>(
-                instance.filterByDate(apiSerivces.getMeetings(), cal));
-        Assert.assertEquals(checking,meetings);
+        List<Meeting> comp = apiSerivces.filterByDate(meetings, cal);
+        Assert.assertTrue(comp.contains(meetings.get(2)));
     }
 }

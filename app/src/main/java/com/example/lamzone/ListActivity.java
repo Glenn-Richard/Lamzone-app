@@ -55,8 +55,6 @@ public class ListActivity extends AppCompatActivity {
     RecyclerView rv;
     MeetingAdapter adapter;
     Calendar cal1 = Calendar.getInstance();
-    @SuppressLint("SimpleDateFormat")
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -124,42 +122,17 @@ public class ListActivity extends AppCompatActivity {
             startActivityForResult(intent, LAUNCH_SECOND_ACTIVITY);
         });
     }
-    public ArrayList<Meeting> filterMeetingByRoom(String room, List<Meeting> meetings){
-        ArrayList<Meeting> sortedMeetings = new ArrayList<>();
-        for (int i=0;i<meetings.size();i++){
-                if (meetings.get(i).getLocation().getName().equals(room)){
-                    sortedMeetings.add(meetings.get(i));
-                }
-            }
-            return sortedMeetings;
-    }
     private void getDatePicker(){
         DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) ->{
             cal1.set(Calendar.DAY_OF_MONTH,dayOfMonth);
             cal1.set(Calendar.MONTH,month);
             cal1.set(Calendar.YEAR,year);
-            adapter.updateList((ArrayList<Meeting>) filterByDate(mApiServices.getMeetings(),cal1));
+            adapter.updateList((ArrayList<Meeting>) mApiServices.filterByDate(mApiServices.getMeetings(),cal1));
         };
         DatePickerDialog datePickerDialog = new DatePickerDialog(ListActivity.this,
                 dateSetListener,2021,01,01);
 
         datePickerDialog.show();
-    }
-    public List<Meeting> filterByDate(List<Meeting> meetings, Calendar cal){
-
-        String DateString = dateFormat.format(cal.getTime());
-        String DateComp;
-        ArrayList<Meeting> meetingsFilter = new ArrayList<>();
-
-        for(Meeting meeting : meetings){
-            DateComp = dateFormat.format(meeting.getTimestamp());
-            if (DateComp.equals(DateString)){
-                meetingsFilter.add(meeting);
-            }
-        }
-        return meetingsFilter;
-
-
     }
     @NonNull
     private AlertDialog getRoomDialog() {
@@ -212,7 +185,7 @@ public class ListActivity extends AppCompatActivity {
 
             if (room != null) {
 
-                adapter.updateList(filterMeetingByRoom(room,mApiServices.getMeetings()));
+                adapter.updateList(mApiServices.filterMeetingByRoom(room,mApiServices.getMeetings()));
 
                 dialogInterface.dismiss();
             }
