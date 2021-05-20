@@ -185,6 +185,10 @@ public class AddMeetingActivity extends ListActivity implements AdapterView.OnIt
         List<String> emails;
         emails = Arrays.asList(email.getText().toString().split(","));
 
+        calGlobal.set(cal2.get(Calendar.YEAR), cal2.get(Calendar.MONTH), cal2.get(Calendar.DAY_OF_MONTH),
+                cal1.get(Calendar.HOUR_OF_DAY), cal1.get(Calendar.MINUTE));
+        data = calGlobal.getTime().getTime();
+
         if (text.getText().toString().equals("")) {
             text.setError(getText(R.string.required));
             check = false;
@@ -201,13 +205,7 @@ public class AddMeetingActivity extends ListActivity implements AdapterView.OnIt
             timeTv.setError(getText(R.string.required));
             check = false;
             Toast.makeText(getApplicationContext(), "Veuillez sélectionner une heure", Toast.LENGTH_LONG).show();
-        }
-
-        calGlobal.set(cal2.get(Calendar.YEAR), cal2.get(Calendar.MONTH), cal2.get(Calendar.DAY_OF_MONTH),
-                cal1.get(Calendar.HOUR_OF_DAY), cal1.get(Calendar.MINUTE));
-        data = calGlobal.getTime().getTime();
-
-        if (!meetingLimiter(data, text.getText().toString())) {
+        }else if (!meetingLimiter(data, text.getText().toString())) {
             alert_period.setError(getText(R.string.room_already_takes));
             check = false;
             Toast.makeText(getApplicationContext(), "Veuillez sélectionner un autre horaire", Toast.LENGTH_LONG).show();
@@ -288,11 +286,11 @@ public class AddMeetingActivity extends ListActivity implements AdapterView.OnIt
             text.setText("A");
             Toast.makeText(this, parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
         }
-        if (parent.getItemAtPosition(position).toString().equals(R.string.reunionB)) {
+        if (parent.getItemAtPosition(position).toString().equals(getString(R.string.reunionB))) {
             text.setText("B");
             Toast.makeText(this, parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
         }
-        if (parent.getItemAtPosition(position).toString().equals(R.string.reunionC)) {
+        if (parent.getItemAtPosition(position).toString().equals(getString(R.string.reunionC))) {
             text.setText("C");
             Toast.makeText(this, parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
         }
