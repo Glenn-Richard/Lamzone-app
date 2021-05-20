@@ -28,8 +28,7 @@ public class MeetingUnitTest{
 
     @Test
     public void getMeetingsWithSuccess(){
-        List<Meeting> meetings = new ArrayList<>();
-        meetings.addAll(apiSerivces.getMeetings());
+        List<Meeting> meetings = new ArrayList<>(apiSerivces.getMeetings());
         assertEquals(ApiServiceGenerator.MEETINGS,meetings);
     }
     @Test
@@ -53,20 +52,19 @@ public class MeetingUnitTest{
     @Test
     public void sortMeetingsByRoomWithSuccess(){
         List<Meeting> meetings = Arrays.asList(
-                new Meeting(00,1680000000L,"toto1",ApiServiceGenerator.EMAILS,ApiServiceGenerator.ROOMS.get(0)),
-                new Meeting(01,1680000000L,"toto2",ApiServiceGenerator.EMAILS,ApiServiceGenerator.ROOMS.get(1)),
-                new Meeting(02,1680000000L,"toto3",ApiServiceGenerator.EMAILS,ApiServiceGenerator.ROOMS.get(0))
+                new Meeting(0,1680000000L,3600000, "toto1",ApiServiceGenerator.EMAILS,ApiServiceGenerator.ROOMS.get(0)),
+                new Meeting(1,1680000000L, 3600000, "toto2",ApiServiceGenerator.EMAILS,ApiServiceGenerator.ROOMS.get(1)),
+                new Meeting(2,1680000000L, 3600000, "toto3",ApiServiceGenerator.EMAILS,ApiServiceGenerator.ROOMS.get(0))
         );
-        List<Meeting> sorted = new ArrayList<>();
-        sorted.addAll(apiSerivces.filterMeetingByRoom("Reunion A",meetings));
+        List<Meeting> sorted = new ArrayList<>(apiSerivces.filterMeetingByRoom("Reunion A", meetings));
         Assert.assertTrue(sorted.contains(meetings.get(0)) && sorted.contains(meetings.get(2)));
     }
     @Test
     public void sortMeetingsByDateWithSuccess(){
         List<Meeting> meetings = Arrays.asList(
-                new Meeting(00,1680000000000L,"toto1",ApiServiceGenerator.EMAILS,ApiServiceGenerator.ROOMS.get(0)),
-                new Meeting(01,1618504200000L,"toto2",ApiServiceGenerator.EMAILS,ApiServiceGenerator.ROOMS.get(1)),
-                new Meeting(02,1618565400000L,"toto3",ApiServiceGenerator.EMAILS,ApiServiceGenerator.ROOMS.get(0))
+                new Meeting(0,1680000000000L, 3600000, "toto1",ApiServiceGenerator.EMAILS,ApiServiceGenerator.ROOMS.get(0)),
+                new Meeting(1,1618504200000L, 3600000, "toto2",ApiServiceGenerator.EMAILS,ApiServiceGenerator.ROOMS.get(1)),
+                new Meeting(2,1618565400000L, 3600000, "toto3",ApiServiceGenerator.EMAILS,ApiServiceGenerator.ROOMS.get(0))
         );
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.DAY_OF_MONTH,16);

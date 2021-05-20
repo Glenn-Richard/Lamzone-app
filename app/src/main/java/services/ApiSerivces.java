@@ -17,4 +17,5 @@ public interface ApiSerivces {
     ArrayList<Meeting> filterMeetingByRoom(String room, List<Meeting> meetings);
 
     List<Meeting> filterByDate(List<Meeting> meetings, Calendar cal);
+
 }

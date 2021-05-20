@@ -13,7 +13,7 @@ import static services.ApiServiceGenerator.generateMeetings;
 
 public class ApiMeetingServices implements ApiSerivces {
 
-    private List<Meeting> meetings = generateMeetings();
+    private final List<Meeting> meetings = generateMeetings();
 
     @SuppressLint("SimpleDateFormat")
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -62,4 +62,5 @@ public class ApiMeetingServices implements ApiSerivces {
 
 
     }
+
 }

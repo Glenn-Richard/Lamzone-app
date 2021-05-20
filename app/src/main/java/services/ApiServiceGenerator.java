@@ -30,11 +30,11 @@ public abstract class ApiServiceGenerator implements Parcelable {
 
     //Liste de meeting
     public static List<Meeting> MEETINGS = Arrays.asList(
-      new Meeting(000,1618504200000L,"Brainstorming",EMAILS, ROOMS.get(0)),
-      new Meeting(001,1618484400000L,"Planning",EMAILS, ROOMS.get(2)),
-      new Meeting(002,1618491600000L,"Budget",EMAILS, ROOMS.get(1)),
-      new Meeting(003,1618504200000L,"Fusion",EMAILS, ROOMS.get(2)),
-      new Meeting(004,1618565400000L,"Press",EMAILS, ROOMS.get(0))
+      new Meeting(0,1618504200000L, 3600000, "Brainstorming",EMAILS, ROOMS.get(0)),
+      new Meeting(1,1618484400000L, 3600000, "Planning",EMAILS, ROOMS.get(2)),
+      new Meeting(2,1618491600000L, 3600000, "Budget",EMAILS, ROOMS.get(1)),
+      new Meeting(3,1618504200000L, 3600000, "Fusion",EMAILS, ROOMS.get(2)),
+      new Meeting(4,1618565400000L, 3600000, "Press",EMAILS, ROOMS.get(0))
     );
 
     static List<Meeting> generateMeetings(){return new ArrayList<>(MEETINGS);}

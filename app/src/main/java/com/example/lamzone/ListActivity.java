@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,13 +14,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -30,10 +27,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import services.ApiMeetingServices;
 import services.ApiSerivces;
@@ -42,19 +37,18 @@ import services.ApiServiceGenerator;
 
 public class ListActivity extends AppCompatActivity {
 
-    int LAUNCH_SECOND_ACTIVITY = 1;
     @Nullable
     public AlertDialog dialog = null;
-    @Nullable
-    private TextView dialogTextView = null;
-    @Nullable
-    private Spinner dialogSpinner = null;
-    private DatePickerDialog datePickerDialog = null;
-    ArrayList<Meeting> mMeetings = new ArrayList<Meeting>();
+    int LAUNCH_SECOND_ACTIVITY = 1;
+    ArrayList<Meeting> mMeetings = new ArrayList<>();
     ApiSerivces mApiServices = new ApiMeetingServices();
     RecyclerView rv;
     MeetingAdapter adapter;
     Calendar cal1 = Calendar.getInstance();
+    @Nullable
+    private TextView dialogTextView = null;
+    @Nullable
+    private Spinner dialogSpinner = null;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -73,7 +67,7 @@ public class ListActivity extends AppCompatActivity {
 
         adapter = new MeetingAdapter(meeting -> {
             mApiServices.deleteMeeting(meeting);
-            adapter.updateList(new ArrayList(mApiServices.getMeetings()));
+            adapter.updateList(new ArrayList<>(mApiServices.getMeetings()));
         });
         rv.setLayoutManager(new LinearLayoutManager(this));
         adapter.updateList(mMeetings);
@@ -82,28 +76,30 @@ public class ListActivity extends AppCompatActivity {
         setFabOnClick();
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu,menu);
+        inflater.inflate(R.menu.menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.SHOW_ALL){
+        if (id == R.id.SHOW_ALL) {
             adapter.updateList((ArrayList<Meeting>) mApiServices.getMeetings());
         }
-        if (id == R.id.dateFilter){
+        if (id == R.id.dateFilter) {
             getDatePicker();
         }
-        if (id == R.id.roomFilter){
+        if (id == R.id.roomFilter) {
             showRoomDialog();
         }
 
         return super.onOptionsItemSelected(item);
     }
+
     private void showRoomDialog() {
         final AlertDialog dialog = getRoomDialog();
 
@@ -114,26 +110,29 @@ public class ListActivity extends AppCompatActivity {
 
         populateDialogSpinner();
     }
-    public void setFabOnClick(){
+
+    public void setFabOnClick() {
         final FloatingActionButton fab = findViewById(R.id.fab);
 
         fab.setOnClickListener(v -> {
-            Intent intent = new Intent(ListActivity.this,AddMeetingActivity.class);
+            Intent intent = new Intent(ListActivity.this, AddMeetingActivity.class);
             startActivityForResult(intent, LAUNCH_SECOND_ACTIVITY);
         });
     }
-    private void getDatePicker(){
-        DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) ->{
-            cal1.set(Calendar.DAY_OF_MONTH,dayOfMonth);
-            cal1.set(Calendar.MONTH,month);
-            cal1.set(Calendar.YEAR,year);
-            adapter.updateList((ArrayList<Meeting>) mApiServices.filterByDate(mApiServices.getMeetings(),cal1));
+
+    private void getDatePicker() {
+        DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
+            cal1.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            cal1.set(Calendar.MONTH, month);
+            cal1.set(Calendar.YEAR, year);
+            adapter.updateList((ArrayList<Meeting>) mApiServices.filterByDate(mApiServices.getMeetings(), cal1));
         };
         DatePickerDialog datePickerDialog = new DatePickerDialog(ListActivity.this,
-                dateSetListener,2021,01,01);
+                dateSetListener, 2021, 1, 1);
 
         datePickerDialog.show();
     }
+
     @NonNull
     private AlertDialog getRoomDialog() {
         final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
@@ -166,17 +165,12 @@ public class ListActivity extends AppCompatActivity {
             });
 
             Button button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-            button.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View view) {
-                    onPositiveRoomButtonClick(dialog);
-                }
-            });
+            button.setOnClickListener(view -> onPositiveRoomButtonClick(dialog));
         });
 
         return dialog;
     }
+
     private void onPositiveRoomButtonClick(DialogInterface dialogInterface) {
         // If dialog is open
         if (dialogTextView != null && dialogSpinner != null) {
@@ -185,12 +179,12 @@ public class ListActivity extends AppCompatActivity {
 
             if (room != null) {
 
-                adapter.updateList(mApiServices.filterMeetingByRoom(room,mApiServices.getMeetings()));
+                adapter.updateList(mApiServices.filterMeetingByRoom(room, mApiServices.getMeetings()));
 
                 dialogInterface.dismiss();
             }
             // If name has been set, but project has not been set (this should never occur)
-            else{
+            else {
                 dialogInterface.dismiss();
             }
         }
@@ -199,30 +193,29 @@ public class ListActivity extends AppCompatActivity {
             dialogInterface.dismiss();
         }
     }
+
     private void populateDialogSpinner() {
         ArrayList<String> roomsName = new ArrayList<>();
-        for (Room room : ApiServiceGenerator.ROOMS){
+        for (Room room : ApiServiceGenerator.ROOMS) {
             roomsName.add(room.getName());
         }
-        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,roomsName);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, roomsName);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         if (dialogSpinner != null) {
             dialogSpinner.setAdapter(adapter);
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == LAUNCH_SECOND_ACTIVITY) {
-            if(resultCode == Activity.RESULT_OK){
+            if (resultCode == Activity.RESULT_OK) {
                 Meeting meeting = data.getParcelableExtra("result");
-                Log.d("MEETING",meeting.toString());
+                Log.d("MEETING", meeting.toString());
                 mApiServices.getMeetings().add(meeting);
-                adapter.updateList(new ArrayList(mApiServices.getMeetings()));
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
+                adapter.updateList(new ArrayList<>(mApiServices.getMeetings()));
             }
         }
     }//onActivityResult

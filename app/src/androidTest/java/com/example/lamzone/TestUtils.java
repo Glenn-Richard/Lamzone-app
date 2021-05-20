@@ -1,8 +1,6 @@
 package com.example.lamzone;
 
 import android.view.View;
-import android.widget.Adapter;
-import android.widget.AdapterView;
 
 import androidx.annotation.IdRes;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,13 +10,10 @@ import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.espresso.util.HumanReadables;
 
-import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
-import org.hamcrest.TypeSafeMatcher;
 
 import static androidx.core.util.Preconditions.checkNotNull;
-import static org.hamcrest.EasyMock2Matchers.equalTo;
 
 /**
  * Created by dannyroa on 5/9/15.
@@ -29,7 +24,7 @@ public  class TestUtils {
                                                                                              @IdRes
                                                                                                      int viewId,
                                                                                              ViewAction viewAction) {
-        return new ActionOnItemViewAtPositionViewAction(position, viewId, viewAction);
+        return new ActionOnItemViewAtPositionViewAction<>(position, viewId, viewAction);
     }
 
     private static final class ActionOnItemViewAtPositionViewAction<VH extends RecyclerView
@@ -49,7 +44,7 @@ public  class TestUtils {
             this.viewId = viewId;
         }
 
-        public Matcher<View> getConstraints() {
+        public Matcher getConstraints() {
             return Matchers.allOf(new Matcher[] {
                     ViewMatchers.isAssignableFrom(RecyclerView.class), ViewMatchers.isDisplayed()
             });
@@ -93,7 +88,7 @@ public  class TestUtils {
             this.position = position;
         }
 
-        public Matcher<View> getConstraints() {
+        public Matcher getConstraints() {
             return Matchers.allOf(new Matcher[] {
                     ViewMatchers.isAssignableFrom(RecyclerView.class), ViewMatchers.isDisplayed()
             });
@@ -113,37 +108,6 @@ public  class TestUtils {
     public static RecyclerViewMatcher withRecyclerView(final int recyclerViewId) {
 
         return new RecyclerViewMatcher(recyclerViewId);
-    }
-    public static TypeSafeMatcher<View> withAdaptedData(final Matcher<Object> dataMatcher) {
-        return new TypeSafeMatcher<View>() {
-
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("with class name: ");
-                dataMatcher.describeTo(description);
-            }
-
-            @Override
-            public boolean matchesSafely(View view) {
-                if (!(view instanceof AdapterView)) {
-                    return false;
-                }
-
-                @SuppressWarnings("rawtypes")
-                Adapter adapter = ((AdapterView) view).getAdapter();
-                for (int i = 0; i < adapter.getCount(); i++) {
-                    if (dataMatcher.matches(adapter.getItem(i))) {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-        };
-    }
-    public static Matcher<Object> withItemContent(String expectedText) {
-        checkNotNull(expectedText);
-        return withItemContent(equalTo(expectedText));
     }
 
 

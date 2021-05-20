@@ -47,7 +47,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Vous avez sélectionner la salle: "
+            android:text="@string/vous_avez_s_lectionner_la_salle"
             app:layout_constraintTop_toBottomOf="@id/spinner" />
 
         <TextView
@@ -62,13 +62,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:background="@drawable/custom_bottom"
-        android:hint="Sujet de la réunion"
+        android:hint="@string/sujet_de_la_r_union"
         android:textAlignment="center"
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/roomSelected" />
+        app:layout_constraintTop_toBottomOf="@id/roomSelected"
+        android:inputType="text"
+        android:importantForAutofill="no" />
 
     <TextView
         android:id="@+id/alert_subject"
@@ -83,16 +85,16 @@
 
     <TextView
         android:id="@+id/datePicker"
-        android:layout_width="0dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="30dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/custom_bottom"
         android:gravity="center"
-        android:hint="Sélectionner une date"
+        android:hint="@string/s_lectionner_une_date"
         android:textAllCaps="false"
-        android:textSize="20dp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -110,46 +112,61 @@
 
     <TextView
         android:id="@+id/timePicker"
-        android:layout_width="0dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="30dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/custom_bottom"
         android:gravity="center"
-        android:hint="Sélectionner une heure"
+        android:hint="@string/s_lectionner_une_heure"
         android:textAllCaps="false"
-        android:textSize="20dp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/datePicker" />
 
     <TextView
-        android:id="@+id/alert_hour"
+        android:id="@+id/alert_period"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/red"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/timePicker" />
+        app:layout_constraintTop_toBottomOf="@id/period" />
+
+    <Spinner
+        android:id="@+id/period"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:hint="@string/meeting_period"
+        android:background="@drawable/spinner_style"
+        android:entries="@array/period"
+        app:layout_constraintTop_toBottomOf="@id/timePicker"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
     <EditText
         android:id="@+id/email_selector"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:hint="Entrer 5 emails séparés en virgule"
         android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:inputType="textEmailAddress"
         android:background="@drawable/custom_bottom"
         android:drawableEnd="@drawable/submitted_emails_style"
-        app:layout_constraintTop_toBottomOf="@id/timePicker"
+        android:gravity="center"
+        android:hint="@string/email_set_text"
+        android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/period"
+        android:importantForAutofill="no" />
+
     <TextView
         android:id="@+id/alert_email"
         android:layout_width="wrap_content"

@@ -11,6 +11,16 @@
     <string name="filtre_par_date">Filtre par date</string>
     <string name="filtre_par_salle">Filtre par salle</string>
     <string name="toutes_les_r_unions">Toutes les réunions</string>
+    <string name="new_meeting">Nouvelle réu</string>
+    <string name="required">champs requis</string>
+    <string name="email_assert">5 emails maximum</string>
+    <string name="meeting_period">Sélectionnez la durée de réunion</string>
+    <string name="s_lectionner_une_heure">Sélectionner une heure</string>
+    <string name="s_lectionner_une_date">Sélectionner une date</string>
+    <string name="sujet_de_la_r_union">Sujet de la réunion</string>
+    <string name="vous_avez_s_lectionner_la_salle">Vous avez sélectionner la salle:</string>
+    <string name="email_set_text">Entrer 5 emails séparés en virgule</string>
+    <string name="room_already_takes">Une réunion est déjà prise</string>
     <string-array name="month">
         <item>Mois</item>
         <item></item>

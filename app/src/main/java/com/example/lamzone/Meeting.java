@@ -10,6 +10,7 @@ public class Meeting implements Parcelable, Comparable<Meeting> {
     //VARIABLES
     private  int id;
     private long timestamp;
+    private int period;
     private String subject;
     private List<String> emails;
     private Room location;
@@ -18,9 +19,10 @@ public class Meeting implements Parcelable, Comparable<Meeting> {
     //CONSTRUCTORS
     public Meeting(){}
 
-    public Meeting(int id, long timestamp, String subject, List<String> emails, Room location) {
+    public Meeting(int id, long timestamp, int period, String subject, List<String> emails, Room location) {
         this.id = id;
         this.timestamp = timestamp;
+        this.period = period;
         this.subject = subject;
         this.emails = emails;
         this.location = location;
@@ -30,6 +32,7 @@ public class Meeting implements Parcelable, Comparable<Meeting> {
     protected Meeting(Parcel in) {
         id = in.readInt();
         timestamp = in.readLong();
+        period = in.readInt();
         subject = in.readString();
         emails = in.createStringArrayList();
         location = in.readParcelable(Room.class.getClassLoader());
@@ -62,6 +65,14 @@ public class Meeting implements Parcelable, Comparable<Meeting> {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public int getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(int period) {
+        this.period = period;
     }
 
     public String getSubject() {
@@ -98,6 +109,7 @@ public class Meeting implements Parcelable, Comparable<Meeting> {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeLong(timestamp);
+        dest.writeInt(period);
         dest.writeString(subject);
         dest.writeStringList(emails);
         dest.writeParcelable(location, flags);

@@ -1,19 +1,15 @@
 package com.example.lamzone;
 
 import android.text.format.DateFormat;
-import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
-import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.IsNull;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -34,7 +30,6 @@ import static androidx.test.espresso.contrib.PickerActions.setDate;
 import static androidx.test.espresso.contrib.PickerActions.setTime;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -54,9 +49,8 @@ import static org.junit.Assert.assertThat;
 @RunWith(AndroidJUnit4.class)
 public class MeetingInstrumentedTest extends  RecyclerViewUtils{
 
-    private ApiSerivces apiSerivces = new ApiMeetingServices();
+    private final ApiSerivces apiSerivces = new ApiMeetingServices();
     final private int ITEM_COUNT = apiSerivces.getMeetings().size();
-    private ListActivity mActivity;
 
     @Rule
     public ActivityTestRule<ListActivity> mActivityRule =
@@ -64,7 +58,7 @@ public class MeetingInstrumentedTest extends  RecyclerViewUtils{
 
     @Before
     public void setup(){
-        mActivity = mActivityRule.getActivity();
+        ListActivity mActivity = mActivityRule.getActivity();
         assertThat(mActivity, IsNull.notNullValue());
     }
 

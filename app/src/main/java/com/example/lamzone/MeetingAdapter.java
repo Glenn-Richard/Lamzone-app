@@ -28,7 +28,7 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
 
     public MeetingAdapter(ListItemListener listener){
         mListener=listener;
-        mMeetings=new ArrayList<Meeting>();
+        mMeetings=new ArrayList<>();
     }
 
     @NonNull
@@ -64,8 +64,6 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
 
         private Meeting currentMeeting;
 
-        private String time ;
-
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -81,22 +79,22 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
 
             Calendar cal = Calendar.getInstance();
             cal.setTimeInMillis(currentMeeting.getTimestamp());
-            time = DateFormat.format("dd/MM HH:mm",cal).toString();
+            String time = DateFormat.format("dd/MM HH:mm", cal).toString();
 
             Glide.with(itemView.getContext())
                         .load(currentMeeting.getLocation().getColor())
                         .apply(RequestOptions.circleCropTransform())
                         .into(image);
 
-            ttop.setText(currentMeeting.getLocation().getName()+" - "+time+" - "+ currentMeeting.getSubject());
+            ttop.setText(currentMeeting.getLocation().getName()+" - "+ time +" - "+ currentMeeting.getSubject());
             List<String> emails = currentMeeting.getEmails();
-            String email = emails.get(0);
+            StringBuilder email = new StringBuilder(emails.get(0));
 
                     for(int i=1;i<emails.size();i++){
-                            email = email +","+ emails.get(i);
+                            email.append(",").append(emails.get(i));
                     }
 
-                tbottom.setText(email);
+                tbottom.setText(email.toString());
 
             button.setOnClickListener(v ->
             mListener.onDelete(currentMeeting)
