@@ -37,11 +37,11 @@ import services.ApiServiceGenerator;
 
 public class ListActivity extends AppCompatActivity {
 
+    static ApiSerivces mApiServices = new ApiMeetingServices();
     @Nullable
     public AlertDialog dialog = null;
     int LAUNCH_SECOND_ACTIVITY = 1;
     ArrayList<Meeting> mMeetings = new ArrayList<>();
-    ApiSerivces mApiServices = new ApiMeetingServices();
     RecyclerView rv;
     MeetingAdapter adapter;
     Calendar cal1 = Calendar.getInstance();

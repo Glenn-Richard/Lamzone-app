@@ -7,37 +7,6 @@ import java.util.List;
 
 public class Meeting implements Parcelable, Comparable<Meeting> {
 
-    //VARIABLES
-    private  int id;
-    private long timestamp;
-    private int period;
-    private String subject;
-    private List<String> emails;
-    private Room location;
-
-
-    //CONSTRUCTORS
-    public Meeting(){}
-
-    public Meeting(int id, long timestamp, int period, String subject, List<String> emails, Room location) {
-        this.id = id;
-        this.timestamp = timestamp;
-        this.period = period;
-        this.subject = subject;
-        this.emails = emails;
-        this.location = location;
-    }
-
-
-    protected Meeting(Parcel in) {
-        id = in.readInt();
-        timestamp = in.readLong();
-        period = in.readInt();
-        subject = in.readString();
-        emails = in.createStringArrayList();
-        location = in.readParcelable(Room.class.getClassLoader());
-    }
-
     public static final Creator<Meeting> CREATOR = new Creator<Meeting>() {
         @Override
         public Meeting createFromParcel(Parcel in) {
@@ -49,6 +18,36 @@ public class Meeting implements Parcelable, Comparable<Meeting> {
             return new Meeting[size];
         }
     };
+    //VARIABLES
+    private int id;
+    private long timestamp;
+    private int period;
+    private String subject;
+    private List<String> emails;
+    private Room location;
+
+    //CONSTRUCTORS
+    public Meeting() {
+    }
+
+
+    public Meeting(int id, long timestamp, int period, String subject, List<String> emails, Room location) {
+        this.id = id;
+        this.timestamp = timestamp;
+        this.period = period;
+        this.subject = subject;
+        this.emails = emails;
+        this.location = location;
+    }
+
+    protected Meeting(Parcel in) {
+        id = in.readInt();
+        timestamp = in.readLong();
+        period = in.readInt();
+        subject = in.readString();
+        emails = in.createStringArrayList();
+        location = in.readParcelable(Room.class.getClassLoader());
+    }
 
     //GETTER AND SETTER
     public int getId() {

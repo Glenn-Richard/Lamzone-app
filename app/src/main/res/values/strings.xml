@@ -21,6 +21,9 @@
     <string name="vous_avez_s_lectionner_la_salle">Vous avez sélectionner la salle:</string>
     <string name="email_set_text">Entrer 5 emails séparés en virgule</string>
     <string name="room_already_takes">Une réunion est déjà prise</string>
+    <string name="reunion_a">Reunion A</string>
+    <string name="reunion_b">Reunion B</string>
+    <string name="reunion_c">Reunion C</string>
     <string-array name="month">
         <item>Mois</item>
         <item></item>

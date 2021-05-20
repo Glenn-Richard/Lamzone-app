@@ -26,16 +26,16 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
     List<Meeting> mMeetings;
     ListItemListener mListener;
 
-    public MeetingAdapter(ListItemListener listener){
-        mListener=listener;
-        mMeetings=new ArrayList<>();
+    public MeetingAdapter(ListItemListener listener) {
+        mListener = listener;
+        mMeetings = new ArrayList<>();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.item_list,parent,false);
+        View view = inflater.inflate(R.layout.item_list, parent, false);
         return new ViewHolder(view);
     }
 
@@ -51,12 +51,13 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
         return mMeetings.size();
     }
 
-    public  void updateList(ArrayList<Meeting> meetings){
+    public void updateList(ArrayList<Meeting> meetings) {
         mMeetings.clear();
         mMeetings.addAll(meetings);
         notifyDataSetChanged();
     }
-    public class ViewHolder extends RecyclerView.ViewHolder{
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView image;
         private final TextView ttop;
         private final TextView tbottom;
@@ -73,8 +74,9 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
             button = itemView.findViewById(R.id.item_list_user_delete_button);
 
         }
+
         @SuppressLint("SetTextI18n")
-        public void display(Meeting meeting){
+        public void display(Meeting meeting) {
             currentMeeting = meeting;
 
             Calendar cal = Calendar.getInstance();
@@ -82,22 +84,22 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.ViewHold
             String time = DateFormat.format("dd/MM HH:mm", cal).toString();
 
             Glide.with(itemView.getContext())
-                        .load(currentMeeting.getLocation().getColor())
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(image);
+                    .load(currentMeeting.getLocation().getColor())
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(image);
 
-            ttop.setText(currentMeeting.getLocation().getName()+" - "+ time +" - "+ currentMeeting.getSubject());
+            ttop.setText(currentMeeting.getLocation().getName() + " - " + time + " - " + currentMeeting.getSubject());
             List<String> emails = currentMeeting.getEmails();
             StringBuilder email = new StringBuilder(emails.get(0));
 
-                    for(int i=1;i<emails.size();i++){
-                            email.append(",").append(emails.get(i));
-                    }
+            for (int i = 1; i < emails.size(); i++) {
+                email.append(",").append(emails.get(i));
+            }
 
-                tbottom.setText(email.toString());
+            tbottom.setText(email.toString());
 
             button.setOnClickListener(v ->
-            mListener.onDelete(currentMeeting)
+                    mListener.onDelete(currentMeeting)
             );
         }
     }

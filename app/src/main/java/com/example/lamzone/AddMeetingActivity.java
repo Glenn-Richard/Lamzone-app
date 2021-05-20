@@ -150,19 +150,19 @@ public class AddMeetingActivity extends ListActivity implements AdapterView.OnIt
         //SETTING LOCATION
         switch (text.getText().toString()) {
             case "A":
-                room.setName("Reunion A");
+                room.setName(getString(R.string.reunion_a));
                 room.setId(0);
                 room.setColor(R.mipmap.blue);
                 meeting.setLocation(room);
                 break;
             case "B":
-                room.setName("Reunion B");
+                room.setName(getString(R.string.reunion_b));
                 room.setId(1);
                 room.setColor(R.mipmap.orange);
                 meeting.setLocation(room);
                 break;
             case "C":
-                room.setName("Reunion C");
+                room.setName(getString(R.string.reunion_c));
                 room.setId(2);
                 room.setColor(R.mipmap.magenta);
                 meeting.setLocation(room);
@@ -207,15 +207,14 @@ public class AddMeetingActivity extends ListActivity implements AdapterView.OnIt
                 cal1.get(Calendar.HOUR_OF_DAY), cal1.get(Calendar.MINUTE));
         data = calGlobal.getTime().getTime();
 
-        if (!meetingLimiter(data, text.getText().toString())){
+        if (!meetingLimiter(data, text.getText().toString())) {
             alert_period.setError(getText(R.string.room_already_takes));
             check = false;
             Toast.makeText(getApplicationContext(), "Veuillez sélectionner un autre horaire", Toast.LENGTH_LONG).show();
-        }
-        else if (email.getText().toString().equals("")) {
-        email.setError(getText(R.string.required));
-        check = false;
-        Toast.makeText(getApplicationContext(), "Veuillez sélectionner au moins un email", Toast.LENGTH_LONG).show();
+        } else if (email.getText().toString().equals("")) {
+            email.setError(getText(R.string.required));
+            check = false;
+            Toast.makeText(getApplicationContext(), "Veuillez sélectionner au moins un email", Toast.LENGTH_LONG).show();
         } else if (emails.size() > 5) {
             email.setError(getText(R.string.email_assert));
             check = false;
@@ -260,23 +259,23 @@ public class AddMeetingActivity extends ListActivity implements AdapterView.OnIt
         });
     }
 
-    public Boolean meetingLimiter(long time, String reu){
+    public Boolean meetingLimiter(long time, String reu) {
         long test;
         Room room = new Room();
-        switch (reu){
+        switch (reu) {
             case "A":
-                room.setName("Reunion A");
+                room.setName(getString(R.string.reunion_a));
                 break;
             case "B":
-                room.setName("Reunion B");
+                room.setName(getString(R.string.reunion_b));
                 break;
             case "C":
-                room.setName("Reunion C");
+                room.setName(getString(R.string.reunion_c));
                 break;
         }
-        for (Meeting meeting : mApiServices.getMeetings()){
-            test = meeting.getTimestamp()+meeting.getPeriod();
-            if (time>=meeting.getTimestamp()&&time<=test&&room.getName().equals(meeting.getLocation().getName())){
+        for (Meeting meeting : mApiServices.getMeetings()) {
+            test = meeting.getTimestamp() + meeting.getPeriod();
+            if (time >= meeting.getTimestamp() && time <= test && room.getName().equals(meeting.getLocation().getName())) {
                 return false;
             }
         }
@@ -285,23 +284,23 @@ public class AddMeetingActivity extends ListActivity implements AdapterView.OnIt
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (parent.getItemAtPosition(position).toString().equals("Réunion A")) {
+        if (parent.getItemAtPosition(position).toString().equals(getString(R.string.reunionA))) {
             text.setText("A");
             Toast.makeText(this, parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
         }
-        if (parent.getItemAtPosition(position).toString().equals("Réunion B")) {
+        if (parent.getItemAtPosition(position).toString().equals(R.string.reunionB)) {
             text.setText("B");
             Toast.makeText(this, parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
         }
-        if (parent.getItemAtPosition(position).toString().equals("Réunion C")) {
+        if (parent.getItemAtPosition(position).toString().equals(R.string.reunionC)) {
             text.setText("C");
             Toast.makeText(this, parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
         }
-        if (parent.getItemAtPosition(position).toString().equals("1h")){
+        if (parent.getItemAtPosition(position).toString().equals("1h")) {
             period = 3600000;
             Toast.makeText(this, parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
         }
-        if (parent.getItemAtPosition(position).toString().equals("2h")){
+        if (parent.getItemAtPosition(position).toString().equals("2h")) {
             period = 7200000;
             Toast.makeText(this, parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
         }

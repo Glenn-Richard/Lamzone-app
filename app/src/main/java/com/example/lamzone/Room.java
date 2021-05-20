@@ -13,7 +13,8 @@ public class Room implements Parcelable {
     private int color;
 
     //CONSTRUCTORS
-    public Room(){}
+    public Room() {
+    }
 
     public Room(int id, String name, int color) {
         this.id = id;
@@ -26,18 +27,6 @@ public class Room implements Parcelable {
         name = in.readString();
         color = in.readInt();
     }
-
-    public static final Creator<Room> CREATOR = new Creator<Room>() {
-        @Override
-        public Room createFromParcel(Parcel in) {
-            return new Room(in);
-        }
-
-        @Override
-        public Room[] newArray(int size) {
-            return new Room[size];
-        }
-    };
 
     //GETTERS AND SETTERS
     public int getId() {
@@ -55,9 +44,14 @@ public class Room implements Parcelable {
     public void setName(String name) {
         this.name = name;
     }
-    public int getColor() { return color; }
 
-    public void setColor(int color) { this.color = color; }
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
 
     @Override
     public int describeContents() {
@@ -70,6 +64,16 @@ public class Room implements Parcelable {
         dest.writeString(name);
         dest.writeInt(color);
     }
+    public static final Creator<Room> CREATOR = new Creator<Room>() {
+        @Override
+        public Room createFromParcel(Parcel in) {
+            return new Room(in);
+        }
 
+        @Override
+        public Room[] newArray(int size) {
+            return new Room[size];
+        }
+    };
 
 }
